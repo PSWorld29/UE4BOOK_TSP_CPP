@@ -2,6 +2,8 @@
 
 
 #include "TPSPlayer.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -18,6 +20,13 @@ ATPSPlayer::ATPSPlayer()
 
 	}
 
+	springArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArmComp"));
+	springArmComp->SetupAttachment(RootComponent);
+	springArmComp->SetRelativeLocation(FVector(0, 70, 90));
+	springArmComp->TargetArmLength = 400;
+
+	tpsCamComp = CreateDefaultSubobject<UCameraComponent>(TEXT("TpsCamComp"));
+	tpsCamComp->SetupAttachment(springArmComp);
 
 }
 
