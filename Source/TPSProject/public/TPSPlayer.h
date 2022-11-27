@@ -50,6 +50,11 @@ public:
 
 	void InputVertical(float value);
 
+	void InputJump();
+
+	void Move();
+
+
 
 
 

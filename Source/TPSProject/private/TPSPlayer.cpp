@@ -32,6 +32,8 @@ ATPSPlayer::ATPSPlayer()
 
 	bUseControllerRotationYaw = true;
 
+	JumpMaxCount = 2;
+
 }
 
 // Called when the game starts or when spawned
@@ -50,13 +52,7 @@ void ATPSPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	direction = FTransform(GetControlRotation()).TransformVector(direction);
-	/*FVector P0 = GetActorLocation();
-	FVector vt = direction * walkSpeed * DeltaTime;
-	FVector P = P0 + vt;
-	SetActorLocation(P);*/
-	AddMovementInput(direction);
-	direction = FVector::ZeroVector;
+	Move();
 
 
 
@@ -71,6 +67,7 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &ATPSPlayer::LookUp);
 	PlayerInputComponent->BindAxis(TEXT("Horizontal"), this, &ATPSPlayer::InputHorizontal);
 	PlayerInputComponent->BindAxis(TEXT("Vertical"), this, &ATPSPlayer::InputVertical);
+	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ATPSPlayer::InputJump);
 
 
 
@@ -94,5 +91,22 @@ void ATPSPlayer::InputHorizontal(float value)
 void ATPSPlayer::InputVertical(float value)
 {
 	direction.X = value;
+}
+
+void ATPSPlayer::InputJump()
+{
+	Jump();
+}
+
+void ATPSPlayer::Move()
+{
+	direction = FTransform(GetControlRotation()).TransformVector(direction);
+	/*FVector P0 = GetActorLocation();
+	FVector vt = direction * walkSpeed * DeltaTime;
+	FVector P = P0 + vt;
+	SetActorLocation(P);*/
+	AddMovementInput(direction);
+	direction = FVector::ZeroVector;
+
 }
 
