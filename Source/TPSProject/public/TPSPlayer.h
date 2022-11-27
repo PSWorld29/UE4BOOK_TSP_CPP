@@ -57,6 +57,12 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = GunMesh)
 	class USkeletalMeshComponent* gunMeshComp;
 
+	UPROPERTY(EditAnywhere, Category = BulletFactory)
+	TSubclassOf<class ABullet> bulletFactory;
+
+	void InputFire();
+
+
 
 
 
