@@ -36,4 +36,8 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = camera)
 	class UCameraComponent* tpsCamComp;
 
+	void Turn(float value);
+
+	void LookUp(float value);
+
 };
