@@ -54,6 +54,9 @@ public:
 
 	void Move();
 
+	UPROPERTY(VisibleAnywhere, Category = GunMesh)
+	class USkeletalMeshComponent* gunMeshComp;
+
 
 
 
