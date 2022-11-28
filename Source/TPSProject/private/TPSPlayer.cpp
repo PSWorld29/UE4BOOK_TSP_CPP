@@ -44,6 +44,16 @@ ATPSPlayer::ATPSPlayer()
 		gunMeshComp->SetRelativeLocation(FVector(-14, 52, 120));
 	}
 
+	sniperGumComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SniperGumComp"));
+	sniperGumComp->SetupAttachment(GetMesh());
+	ConstructorHelpers::FObjectFinder<UStaticMesh> TempSniperMesh(TEXT("StaticMesh'/Game/SniperGun/sniper1.sniper1'"));
+	if (TempGunMesh.Succeeded())
+	{
+		sniperGumComp->SetStaticMesh(TempSniperMesh.Object);
+		sniperGumComp->SetRelativeLocation(FVector(-22, 55, 120));
+		sniperGumComp->SetRelativeScale3D(FVector(0.15f));
+	}
+
 
 
 
@@ -54,7 +64,7 @@ void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+	ChangeToSniperGun();
 
 
 	
@@ -82,6 +92,8 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAxis(TEXT("Vertical"), this, &ATPSPlayer::InputVertical);
 	PlayerInputComponent->BindAction(TEXT("Jump"), IE_Pressed, this, &ATPSPlayer::InputJump);
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATPSPlayer::InputFire);
+	PlayerInputComponent->BindAction(TEXT("GrenadeGun"), IE_Pressed, this, &ATPSPlayer::ChangeToGrenadeGun);
+	PlayerInputComponent->BindAction(TEXT("SniperGun"), IE_Pressed, this, &ATPSPlayer::ChangeToSniperGun);
 
 
 
@@ -132,4 +144,25 @@ void ATPSPlayer::InputFire()
 
 
 }
+
+void ATPSPlayer::ChangeToGrenadeGun()
+{
+	bUsingGrenadeGun = true;
+	sniperGumComp->SetVisibility(false);
+	gunMeshComp->SetVisibility(true);
+
+
+}
+
+void ATPSPlayer::ChangeToSniperGun()
+{
+
+	bUsingGrenadeGun = false;
+	sniperGumComp->SetVisibility(true);
+	gunMeshComp->SetVisibility(false);
+
+}
+
+
+
 

@@ -34,6 +34,10 @@ public:
 
 	void Die();
 
+	UPROPERTY(EditAnywhere, Category = Setting)
+	float speed = 5000;
+	
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 
 
 };

@@ -37,7 +37,9 @@ void ABullet::BeginPlay()
 	Super::BeginPlay();
 
 	FTimerHandle deathTimer;
-	GetWorld()->GetTimerManager().SetTimer(deathTimer, this, &ABullet::Die, 2.0f, false);
+	//GetWorld()->GetTimerManager().SetTimer(deathTimer, this, &ABullet::Die, 2.0f, false);
+
+	GetWorld()->GetTimerManager().SetTimer(deathTimer, FTimerDelegate::CreateLambda([this]()->void {Destroy(); }), 2.0f, false);
 	
 }
 
@@ -55,4 +57,18 @@ void ABullet::Die()
 
 
 }
+
+void ABullet::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	if (PropertyChangedEvent.GetPropertyName() == TEXT("speed"))
+	{
+		movementComp->InitialSpeed = speed;
+		movementComp->MaxSpeed = speed;
+	}
+
+}
+
+
+
+
 
