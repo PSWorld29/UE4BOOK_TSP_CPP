@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Bullet.h"
+#include "Blueprint/UserWidget.h"
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -64,6 +65,11 @@ void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
+	_sniperUI = CreateWidget(GetWorld(), sniperUIFactory);
+
+
+
+
 	ChangeToSniperGun();
 
 
@@ -94,6 +100,8 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 	PlayerInputComponent->BindAction(TEXT("Fire"), IE_Pressed, this, &ATPSPlayer::InputFire);
 	PlayerInputComponent->BindAction(TEXT("GrenadeGun"), IE_Pressed, this, &ATPSPlayer::ChangeToGrenadeGun);
 	PlayerInputComponent->BindAction(TEXT("SniperGun"), IE_Pressed, this, &ATPSPlayer::ChangeToSniperGun);
+	PlayerInputComponent->BindAction(TEXT("Sniper"), IE_Pressed, this, &ATPSPlayer::SniperAim);
+	PlayerInputComponent->BindAction(TEXT("Sniper"), IE_Released, this, &ATPSPlayer::SniperAim);
 
 
 
@@ -160,6 +168,29 @@ void ATPSPlayer::ChangeToSniperGun()
 	bUsingGrenadeGun = false;
 	sniperGumComp->SetVisibility(true);
 	gunMeshComp->SetVisibility(false);
+
+}
+
+void ATPSPlayer::SniperAim()
+{
+	if (bUsingGrenadeGun)
+	{
+		return;
+	}
+
+	if (bSniperAim == false)
+	{
+		bSniperAim = true;
+		_sniperUI->AddToViewport();
+		tpsCamComp->SetFieldOfView(45.0f);
+	}
+	else
+	{
+		bSniperAim = false;
+		_sniperUI->RemoveFromParent();
+		tpsCamComp->SetFieldOfView(90.0f);
+	}
+
 
 }
 

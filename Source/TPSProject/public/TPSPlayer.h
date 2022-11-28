@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "TPSPlayer.generated.h"
 
+
 UCLASS()
 class TPSPROJECT_API ATPSPlayer : public ACharacter
 {
@@ -33,7 +34,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = camera)
 	class USpringArmComponent* springArmComp;
 
-	UPROPERTY(VisibleAnywhere, Category = camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = camera)
 	class UCameraComponent* tpsCamComp;
 
 	void Turn(float value);
@@ -71,6 +72,14 @@ public:
 
 	void ChangeToSniperGun();
 
+	void SniperAim();
+
+	bool bSniperAim = false;
+
+	UPROPERTY(EditDefaultsOnly, Category = SniperUI)
+	TSubclassOf<class UUserWidget> sniperUIFactory;
+
+	class UUserWidget* _sniperUI;
 
 
 
