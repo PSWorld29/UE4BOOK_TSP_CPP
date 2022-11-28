@@ -67,7 +67,8 @@ void ATPSPlayer::BeginPlay()
 	Super::BeginPlay();
 
 	_sniperUI = CreateWidget(GetWorld(), sniperUIFactory);
-
+	_crosshairUI = CreateWidget(GetWorld(), crosshairUIFactory);
+	_crosshairUI->AddToViewport();
 
 
 
@@ -210,12 +211,14 @@ void ATPSPlayer::SniperAim()
 		bSniperAim = true;
 		_sniperUI->AddToViewport();
 		tpsCamComp->SetFieldOfView(45.0f);
+		_crosshairUI->RemoveFromParent();
 	}
 	else
 	{
 		bSniperAim = false;
 		_sniperUI->RemoveFromParent();
 		tpsCamComp->SetFieldOfView(90.0f);
+		_crosshairUI->AddToViewport();
 	}
 
 
