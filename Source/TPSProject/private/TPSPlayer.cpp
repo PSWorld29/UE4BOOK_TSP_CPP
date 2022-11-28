@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "Bullet.h"
 #include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ATPSPlayer::ATPSPlayer()
@@ -146,10 +147,36 @@ void ATPSPlayer::Move()
 
 void ATPSPlayer::InputFire()
 {
+	if (bUsingGrenadeGun)
+	{
+		FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
+		GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
+	}
+	else
+	{
+		FVector startPos = tpsCamComp->GetComponentLocation();
+		FVector endPos = tpsCamComp->GetComponentLocation() + (tpsCamComp->GetForwardVector() * 5000);
+		FHitResult hitInfo;
+		FCollisionQueryParams params;
+		params.AddIgnoredActor(this);
+		bool bHit = GetWorld()->LineTraceSingleByChannel(hitInfo, startPos, endPos, ECC_Visibility, params);
+		
+		if (bHit)
+		{
+			FTransform bullletTrans;
+			bullletTrans.SetLocation(hitInfo.ImpactPoint);
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), bulletEffectfactory, bullletTrans);
 
-	FTransform firePosition = gunMeshComp->GetSocketTransform(TEXT("FirePosition"));
-	GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition);
+			auto hitComp = hitInfo.GetComponent();
+			if (hitComp && hitComp->IsSimulatingPhysics())
+			{
+				FVector force = -hitInfo.ImpactNormal * hitComp->GetMass() * 500000;
+				hitComp->AddForce(force);
+			}
 
+
+		}
+	}
 
 }
 

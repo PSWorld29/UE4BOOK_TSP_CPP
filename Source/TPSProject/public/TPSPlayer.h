@@ -7,6 +7,7 @@
 #include "TPSPlayer.generated.h"
 
 
+
 UCLASS()
 class TPSPROJECT_API ATPSPlayer : public ACharacter
 {
@@ -81,6 +82,9 @@ public:
 
 	class UUserWidget* _sniperUI;
 
+
+	UPROPERTY(EditAnywhere, Category = BulletEffect)
+	class UParticleSystem* bulletEffectfactory;
 
 
 
