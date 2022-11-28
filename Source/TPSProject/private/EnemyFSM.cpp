@@ -6,6 +6,7 @@
 #include "Enemy.h"
 #include "Kismet/GameplayStatics.h"
 #include "TPSProject.h"
+#include "Components/CapsuleComponent.h"
 
 // Sets default values for this component's properties
 UEnemyFSM::UEnemyFSM()
@@ -110,9 +111,46 @@ void UEnemyFSM::AttackState()
 
 void UEnemyFSM::DamageState()
 {
+
+	currentTime += GetWorld()->DeltaTimeSeconds;
+	if (currentTime > damageDelayTime)
+	{
+		mState = EEnemyState::Idle;
+		currentTime = 0;
+	}
+
 }
 
 void UEnemyFSM::DieState()
 {
+	FVector P0 = me->GetActorLocation();
+	FVector vt = FVector::DownVector * dieSpeed * GetWorld()->DeltaTimeSeconds;
+	FVector P = P0 + vt;
+	me->SetActorLocation(P);
+
+	if (P.Z < -200.0f)
+	{
+		me->Destroy();
+	}
+}
+
+void UEnemyFSM::OnDamageProcess()
+{
+	hp--;
+
+	if (hp > 0)
+	{
+		mState = EEnemyState::Damage;
+	}
+	else
+	{
+		mState = EEnemyState::Die;
+		me->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	}
+
+
+
+
+
 }
 
