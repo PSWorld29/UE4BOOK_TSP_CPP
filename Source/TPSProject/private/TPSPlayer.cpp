@@ -51,15 +51,15 @@ ATPSPlayer::ATPSPlayer()
 		gunMeshComp->SetRelativeRotation(FRotator(0, 90, 0));
 	}
 
-	sniperGumComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SniperGumComp"));
-	sniperGumComp->SetupAttachment(GetMesh(), TEXT("hand_rSocket"));
+	sniperGunComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("SniperGumComp"));
+	sniperGunComp->SetupAttachment(GetMesh(), TEXT("hand_rSocket"));
 	ConstructorHelpers::FObjectFinder<UStaticMesh> TempSniperMesh(TEXT("StaticMesh'/Game/SniperGun/sniper1.sniper1'"));
 	if (TempGunMesh.Succeeded())
 	{
-		sniperGumComp->SetStaticMesh(TempSniperMesh.Object);
-		sniperGumComp->SetRelativeLocation(FVector(-42, 7, 1));
-		sniperGumComp->SetRelativeRotation(FRotator(0, 90, 0));
-		sniperGumComp->SetRelativeScale3D(FVector(0.15f));
+		sniperGunComp->SetStaticMesh(TempSniperMesh.Object);
+		sniperGunComp->SetRelativeLocation(FVector(-42, 7, 1));
+		sniperGunComp->SetRelativeRotation(FRotator(0, 90, 0));
+		sniperGunComp->SetRelativeScale3D(FVector(0.15f));
 	}
 
 
@@ -205,7 +205,7 @@ void ATPSPlayer::InputFire()
 void ATPSPlayer::ChangeToGrenadeGun()
 {
 	bUsingGrenadeGun = true;
-	sniperGumComp->SetVisibility(false);
+	sniperGunComp->SetVisibility(false);
 	gunMeshComp->SetVisibility(true);
 
 
@@ -215,7 +215,7 @@ void ATPSPlayer::ChangeToSniperGun()
 {
 
 	bUsingGrenadeGun = false;
-	sniperGumComp->SetVisibility(true);
+	sniperGunComp->SetVisibility(true);
 	gunMeshComp->SetVisibility(false);
 
 }

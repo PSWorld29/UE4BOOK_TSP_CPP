@@ -68,7 +68,7 @@ public:
 	void InputFire();
 
 	UPROPERTY(VisibleAnywhere, Category = GunMesh)
-	class UStaticMeshComponent* sniperGumComp;
+	class UStaticMeshComponent* sniperGunComp;
 
 	bool bUsingGrenadeGun = true;
 
