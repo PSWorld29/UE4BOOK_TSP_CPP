@@ -8,6 +8,8 @@
 #include "TPSProject.h"
 #include "Components/CapsuleComponent.h"
 #include "EnemyAnim.h"
+#include "AIController.h"
+#include "NavigationSystem.h"
 
 // Sets default values for this component's properties
 UEnemyFSM::UEnemyFSM()
@@ -31,6 +33,8 @@ void UEnemyFSM::BeginPlay()
 
 
 	anim = Cast<UEnemyAnim>(me->GetMesh()->GetAnimInstance());
+
+	ai = Cast<AAIController>(me->GetController());
 
 
 
@@ -83,6 +87,8 @@ void UEnemyFSM::IdleState()
 		currentTime = 0;
 
 		anim->animState = mState;
+
+		GetRandomPositionInNavMesh(me->GetActorLocation(), 500, randomPos);
 	}
 
 }
@@ -91,10 +97,37 @@ void UEnemyFSM::MoveState()
 {
 	FVector destination = target->GetActorLocation();
 	FVector dir = destination - me->GetActorLocation();
+	
 	me->AddMovementInput(dir.GetSafeNormal());
+	auto ns = UNavigationSystemV1::GetNavigationSystem(GetWorld());
+	FPathFindingQuery query;
+	FAIMoveRequest req;
+	req.SetAcceptanceRadius(3);
+	req.SetGoalLocation(destination);
+	ai->BuildPathfindingQuery(req, query);
+	FPathFindingResult r = ns->FindPathSync(query);
+
+	if (r.Result == ENavigationQueryResult::Success)
+	{
+		ai->MoveToLocation(destination);
+	}
+	else
+	{
+		auto result = ai->MoveToLocation(randomPos);
+		
+		if (result == EPathFollowingRequestResult::AlreadyAtGoal)
+		{
+			GetRandomPositionInNavMesh(me->GetActorLocation(), 500, randomPos);
+		}
+
+
+	}
+
+
 
 	if (dir.Size() < attackRange)
 	{
+		ai->StopMovement();
 		mState = EEnemyState::Attack;
 		
 		anim->animState = mState;
@@ -118,6 +151,8 @@ void UEnemyFSM::AttackState()
 	{
 		mState = EEnemyState::Move;
 		anim->animState = mState;
+
+		GetRandomPositionInNavMesh(me->GetActorLocation(), 500, randomPos);
 	}
 
 }
@@ -179,8 +214,19 @@ void UEnemyFSM::OnDamageProcess()
 	}
 
 	anim->animState = mState;
+	ai->StopMovement();
 
 
+}
 
+bool UEnemyFSM::GetRandomPositionInNavMesh(FVector centerLocation, float radius, FVector& dest)
+{
+	auto ns = UNavigationSystemV1::GetNavigationSystem(GetWorld());
+	FNavLocation loc;
+	bool result = ns->GetRandomReachablePointInRadius(centerLocation, radius, loc);
+	dest = loc.Location;
+
+
+	return result;
 }
 
