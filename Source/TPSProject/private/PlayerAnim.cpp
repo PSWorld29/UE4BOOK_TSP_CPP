@@ -31,3 +31,8 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 
 
 }
+
+void UPlayerAnim::PlayAttackAnim()
+{
+	Montage_Play(attackAnimMontage);
+}
