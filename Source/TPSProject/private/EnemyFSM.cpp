@@ -155,6 +155,14 @@ void UEnemyFSM::OnDamageProcess()
 	if (hp > 0)
 	{
 		mState = EEnemyState::Damage;
+
+		currentTime = 0;
+
+		int32 index = FMath::RandRange(0, 1);
+		FString sectionName = FString::Printf(TEXT("Damage%d"), index); 
+		anim->PlayDamageAnim(FName(*sectionName));
+
+
 	}
 	else
 	{
