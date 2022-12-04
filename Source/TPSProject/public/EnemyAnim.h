@@ -28,5 +28,8 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = FSMEvent)
 	void PlayDamageAnim(FName sectionName);
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = FSM)
+	bool bDieDon = false;
+
 
 };
