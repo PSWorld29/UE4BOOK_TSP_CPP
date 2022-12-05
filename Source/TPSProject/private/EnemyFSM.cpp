@@ -98,7 +98,7 @@ void UEnemyFSM::MoveState()
 	FVector destination = target->GetActorLocation();
 	FVector dir = destination - me->GetActorLocation();
 	
-	me->AddMovementInput(dir.GetSafeNormal());
+	//me->AddMovementInput(dir.GetSafeNormal());
 	auto ns = UNavigationSystemV1::GetNavigationSystem(GetWorld());
 	FPathFindingQuery query;
 	FAIMoveRequest req;
