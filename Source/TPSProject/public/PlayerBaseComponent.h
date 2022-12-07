@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "TPSPlayer.h"
-#include "GameFramework/CharacterMovementComponent.h"
+#include <GameFramework/CharacterMovementComponent.h>
 #include "PlayerBaseComponent.generated.h"
 
 
@@ -13,18 +13,18 @@ UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TPSPROJECT_API UPlayerBaseComponent : public UActorComponent
 {
 	GENERATED_BODY()
-		
-public:
+
+public:	
+	// Sets default values for this component's properties
 	UPlayerBaseComponent()
 	{
 		PrimaryComponentTick.bCanEverTick = false;
-	}
+	};
+
 
 	virtual void BeginPlay() override;
 
-	virtual void SetupInputBinding(UInputComponent* PlayerInputComponent) {};
-
-
+	virtual void SetupInputBinding(class UInputComponent* PlayerInputComponent) {};
 
 public:
 	UPROPERTY()
@@ -32,6 +32,8 @@ public:
 
 	UPROPERTY()
 	UCharacterMovementComponent* moveComp;
+
+	
 	
 
 		

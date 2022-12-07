@@ -38,9 +38,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = camera)
 	class UCameraComponent* tpsCamComp;
 
-	void Turn(float value);
-
-	void LookUp(float value);
 
 
 	UPROPERTY(EditAnywhere, Category = PlayerSetting)
@@ -101,6 +98,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = Sound)
 	class USoundBase* bulletSound;
+
+public:
+	UPROPERTY(VisibleAnywhere, Category = Component)
+	class UPlayerBaseComponent* playerMove;
 
 
 };
