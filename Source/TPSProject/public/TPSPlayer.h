@@ -39,23 +39,6 @@ public:
 	class UCameraComponent* tpsCamComp;
 
 
-
-	UPROPERTY(EditAnywhere, Category = PlayerSetting)
-	float walkSpeed = 200;
-
-	UPROPERTY(EditAnywhere, Category = PlayerSetting)
-	float runSpeed = 600;
-
-	FVector direction;
-
-	void InputHorizontal(float value);
-
-	void InputVertical(float value);
-
-	void InputJump();
-
-	void Move();
-
 	UPROPERTY(VisibleAnywhere, Category = GunMesh)
 	class USkeletalMeshComponent* gunMeshComp;
 
@@ -91,7 +74,6 @@ public:
 
 	class UUserWidget* _crosshairUI;
 
-	void InputRun();
 
 	UPROPERTY(EditDefaultsOnly, Category = CameraMotion)
 	TSubclassOf<class UCameraShakeBase> cameraShake;
