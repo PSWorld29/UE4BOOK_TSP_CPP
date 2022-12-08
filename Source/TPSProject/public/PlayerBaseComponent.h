@@ -19,12 +19,15 @@ public:
 	UPlayerBaseComponent()
 	{
 		PrimaryComponentTick.bCanEverTick = false;
+		bWantsInitializeComponent = true;
 	};
 
 
 	virtual void BeginPlay() override;
 
 	virtual void SetupInputBinding(class UInputComponent* PlayerInputComponent) {};
+
+	virtual void InitializeComponent() override;
 
 public:
 	UPROPERTY()

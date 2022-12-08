@@ -62,7 +62,7 @@ ATPSPlayer::ATPSPlayer()
 
 	playerMove = CreateDefaultSubobject<UPlayerMove>(TEXT("PlayerMove"));
 
-	playerFire = CreateDefaultSubobject<UPlayerFire>(TEXT("PlayerFire"));
+	/*playerFire = CreateDefaultSubobject<UPlayerFire>(TEXT("PlayerFire"));*/
 	
 
 
@@ -94,8 +94,13 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	
-	playerMove->SetupInputBinding(PlayerInputComponent);
-	playerFire->SetupInputBinding(PlayerInputComponent);
+
+	OnInputBindingDelegate.Broadcast(PlayerInputComponent);
+
+
+
+	/*playerMove->SetupInputBinding(PlayerInputComponent);
+	playerFire->SetupInputBinding(PlayerInputComponent);*/
 
 
 

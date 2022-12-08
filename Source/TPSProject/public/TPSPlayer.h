@@ -6,12 +6,18 @@
 #include "GameFramework/Character.h"
 #include "TPSPlayer.generated.h"
 
-
+DECLARE_MULTICAST_DELEGATE_OneParam(FInputBindingDelegate, class UInputComponent*)
 
 UCLASS()
 class TPSPROJECT_API ATPSPlayer : public ACharacter
 {
 	GENERATED_BODY()
+
+public:
+	FInputBindingDelegate OnInputBindingDelegate;
+
+
+
 
 public:
 	// Sets default values for this character's properties
