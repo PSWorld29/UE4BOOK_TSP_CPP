@@ -6,6 +6,8 @@
 #include "Camera/CameraComponent.h"
 #include "PlayerMove.h"
 #include "PlayerFire.h"
+#include "TPSProject.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -73,7 +75,7 @@ void ATPSPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	Hp = initialHp;
 	
 }
 
@@ -106,9 +108,24 @@ void ATPSPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent
 
 }
 
+void ATPSPlayer::OnHitEvent()
+{
+	PRINT_LOG(TEXT("Damaged!!!!!"));
+	Hp--;
+	if (Hp <= 0)
+	{
+		PRINT_LOG(TEXT("Player is dead!"))
+		OnGameOver();
+	}
+
+}
 
 
 
+void ATPSPlayer::OnGameOver_Implementation()
+{
+	UGameplayStatics::SetGamePaused(GetWorld(), true);
+}
 
 
 
