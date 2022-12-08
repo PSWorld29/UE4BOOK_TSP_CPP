@@ -72,6 +72,8 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, category = Health)
 	void OnGameOver();
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, category = Health)
+	void OnUsingGrenade(bool isGrenade);
 
 
 };
